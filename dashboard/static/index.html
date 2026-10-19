@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="fa" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>Kronos | دیده‌بان بیت‌کوین</title>
+  <link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <a href="/" class="brand" aria-label="کرونوس، صفحهٔ اصلی"><span class="brandmark">K<span>·</span></span><span><b>KRONOS</b><small>دیده‌بان محلی بازار</small></span></a>
+      <div class="top-actions"><span class="local-tag"><span class="tiny-dot"></span> روی این دستگاه</span><button id="theme" class="icon-button" aria-label="تغییر به حالت روشن" title="تغییر حالت نمایش">☀</button></div>
+    </header>
+    <main>
+      <section class="heading">
+        <div><div class="eyebrow">پایش بازار <span>/</span> پیش‌بینی یک کندل جلوتر</div><h1><span class="bitcoin">₿</span> بیت‌کوین <span class="heading-divider">/</span> <span id="quoteName">تتر</span> <span id="headingPair" class="pair" dir="ltr">BTC / USDT</span></h1><p class="subtitle">دو مسیر مستقل · بایننس و TWAP مرزی · افق پنج‌دقیقه‌ای</p></div>
+        <div class="run-actions"><span id="engineBadge" class="badge">در حال اتصال به برنامه</span><button id="toggle" class="primary">شروع پایش <span>↗</span></button></div>
+      </section>
+
+      <div class="notice" id="notice" role="status"><span class="notice-dot"></span><span id="noticeText">در حال خواندن وضعیت برنامه…</span><span id="syncTime" class="notice-time"></span></div>
+
+
+      <section class="route-grid" aria-label="مسیرهای مستقل پیش‌بینی">
+        <button class="route-card selected" id="routeBinance" data-route="binance" aria-pressed="true">
+          <span class="route-kicker">مسیر ۰۱ <span id="binancePhase">در انتظار</span></span>
+          <span class="route-name">بایننس <small>BTC / USDT</small><b id="binanceDirection">—</b></span>
+          <span class="route-detail">کندل کامل معاملات و حجم واقعی</span>
+          <span class="route-bottom">موفقیت روی نتیجه رسمی بازار <strong id="binanceMarketRate">—</strong></span>
+        </button>
+        <button class="route-card" id="routeTwap" data-route="twap" aria-pressed="false">
+          <span class="route-kicker">مسیر ۰۲ <span id="twapPhase">آماده‌سازی</span></span>
+          <span class="route-name">TWAP مرز دورها <small>BTC / USD</small><b id="twapDirection">—</b></span>
+          <span class="route-detail">نمونه واقعی از TWAP شصت‌ثانیه‌ای در مرز هر پنج دقیقه</span>
+          <span class="route-bottom">موفقیت روی نتیجه رسمی بازار <strong id="twapMarketRate">—</strong></span>
+        </button>
+      </section>
+      <section class="comparison-strip" aria-label="مقایسه روی دورهای یکسان">
+        <div><b>مقایسهٔ منصفانه</b><small id="pairedSummary">منتظر نتیجهٔ دورهای مشترک</small></div>
+        <div><span>بایننس</span><strong id="pairedBinance">—</strong></div>
+        <div><span>TWAP مرزی</span><strong id="pairedTwap">—</strong></div>
+        <p id="officialStatus">مرجع مشترک: نتیجهٔ رسمی BTC پنج‌دقیقه‌ای Limitless؛ فقط جهت قیمت سنجیده می‌شود.</p>
+      </section>
+      <div class="route-description" id="routeDescription" role="note"></div>
+
+      <section class="ticker-strip" aria-label="خلاصهٔ بازار">
+        <div class="ticker"><span><span id="currentLabel">قیمت جاری</span> <small class="quote-unit">USDT</small></span><strong id="price" dir="ltr">—</strong><small id="priceNote">در انتظار دادهٔ تازه</small></div>
+        <div class="ticker"><span>بسته‌شدنِ پیش‌بینی‌شده <small class="quote-unit">USDT</small></span><div class="prediction-value"><strong id="predicted" dir="ltr">—</strong><span id="predictedColor" class="color-emoji" aria-label="رنگ کندل هنوز مشخص نیست">—</span></div><small id="predictedNote">پیش‌بینی هنوز ثبت نشده</small></div>
+        <div class="ticker"><span>تغییر نسبت به آخرین کندل</span><strong id="change" dir="ltr">—</strong><small>خروجی مدل؛ احتمال موفقیت نیست</small></div>
+        <div class="ticker countdown"><span>تا بسته‌شدن کندل جاری</span><strong id="countdown" dir="ltr">--:--</strong><div class="progress-track"><div id="progress"></div></div></div>
+      </section>
+
+      <section class="workspace">
+        <article class="panel chart-panel">
+          <div class="panel-head"><div><h2>قیمت و مسیر پیش‌بینی</h2><p><span id="chartSource">زمان نمودار: UTC · قیمت: USDT</span></p></div><div class="range-buttons" aria-label="تعداد کندل نمایشی"><button data-range="60">۶۰</button><button data-range="120" class="selected" aria-pressed="true">۱۲۰</button><button data-range="240">۲۴۰</button></div></div>
+          <div class="chart-wrap"><canvas id="chart" role="img" aria-label="نمودار کندل‌های واقعی بیت‌کوین و آخرین کندل پیش‌بینی‌شده"></canvas><div id="chartEmpty" class="chart-empty">تاریخچه در حال آماده‌شدن است…</div><div id="tooltip" class="tooltip" hidden></div></div>
+          <div class="chart-footer"><div class="legend"><span><i class="legend-real"></i> <span id="realLegend">کندل واقعی</span></span><span><i class="legend-pred"></i> پیش‌بینی مدل</span><span id="volumeLegend"><i class="legend-volume"></i> حجم BTC</span></div><span id="chartLast">—</span></div>
+        </article>
+
+        <aside class="panel forecast-panel">
+          <div class="panel-head"><div><div class="eyebrow">افق پیش‌بینی</div><h2>یک کندل، پنج دقیقه</h2></div><span class="forecast-glyph">↗</span></div>
+          <div class="forecast-window"><span>بازهٔ هدف <small>UTC</small></span><strong id="targetTime" dir="ltr">—</strong><small id="forecastStatus">منتظر نخستین پیش‌بینی</small><div class="candle-summary"><span><span id="directionLabel">رنگ کندل بعدی</span></span><b id="forecastColor">—</b></div></div>
+          <dl class="ohlc"><div><dt>بازشدن</dt><dd id="open" dir="ltr">—</dd></div><div><dt>بیشینه</dt><dd id="high" dir="ltr">—</dd></div><div><dt>کمینه</dt><dd id="low" dir="ltr">—</dd></div><div><dt>بسته‌شدن</dt><dd id="close" dir="ltr">—</dd></div></dl>
+          <p class="forecast-note" id="forecastNote">پس از بسته‌شدن هر کندل، ۴۰۰ کندل آخر به مدل داده می‌شود.</p>
+          <div class="model-meta"><span><i class="tiny-dot"></i> <b>Kronos-base</b></span><span id="device">در انتظار بارگذاری</span></div>
+        </aside>
+      </section>
+
+      <section class="lower-grid">
+        <article class="panel history-panel">
+          <div class="panel-head"><div><h2>کارنامهٔ مسیر انتخاب‌شده</h2><p>هر پیش‌بینی ثابت می‌ماند؛ نتیجه پس از بسته‌شدن کندل اضافه می‌شود.</p></div><a class="text-link" id="exportLink" href="/api/export.csv?route=binance" download="kronos-binance.csv">دریافت CSV <span>↓</span></a></div>
+          <div class="table-scroll"><table><thead><tr><th>کندل هدف <small>UTC</small></th><th>پیش‌بینی و رنگ کندل</th><th>واقعیت و رنگ کندل</th><th>خطای مطلق</th><th>تطابق رنگ</th><th>وضعیت</th><th>جهت پیشنهادی بازار</th><th>نتیجه رسمی بازار</th><th>تطابق بازار</th></tr></thead><tbody id="history"></tbody></table><div class="history-empty" id="historyEmpty"><span>◷</span><b>کارنامه از اینجا شروع می‌شود</b><p>با شروع پایش، پیش‌بینی‌های زنده ذخیره می‌شوند.</p></div></div>
+        </article>
+        <aside class="panel quality-panel"><div class="panel-head"><div><div class="eyebrow">کارنامهٔ زنده</div><h2 id="metricLabel">موفقیت رنگ کندل بایننس</h2></div></div><div class="quality-main"><strong id="colorSuccess">—</strong><span id="colorSummary">هنوز کندلی ارزیابی نشده</span></div><dl class="quality-list"><div><dt>✓ رنگ درست</dt><dd id="colorCorrect">۰</dd></div><div><dt>✕ رنگ نادرست</dt><dd id="colorWrong">۰</dd></div><div><dt>در انتظار بسته‌شدن</dt><dd id="colorPending">۰</dd></div><div><dt>نامعتبر یا دیرهنگام</dt><dd id="excluded">۰</dd></div></dl><p class="quality-note" id="qualityNote">درصد فقط از تطابق رنگ کندل‌ها در تمام سوابق محاسبه می‌شود؛ اختلاف عدد قیمت نقشی ندارد. پس از بسته‌شدن هر کندل به‌روز می‌شود.</p></aside>
+      </section>
+
+      <section class="data-footer"><div><span class="tiny-dot"></span><b id="coverageCount">—</b><span>کندل ذخیره‌شده</span></div><div id="coveragePeriod">در حال خواندن تاریخچه…</div><button id="refresh" class="text-link">به‌روزرسانی اکنون ↻</button></section>
+    </main>
+    <footer class="page-footer"><span>KRONOS <span class="footer-slash">/</span> LOCAL RESEARCH</span><p>پیش‌بینی آزمایشی است؛ اتصال داده فقط‌خواندنی است و سفارشی ثبت نمی‌شود.</p><span id="lastLatency">مدل base · افق ۱ کندل</span></footer>
+  </div>
+</body>
+</html>

@@ -74,3 +74,20 @@ venv.bak/
 temp/
 tmp/
 .python-version
+
+# Local research dashboard: generated or private runtime files
+/models/
+/data/
+/results/
+/cache/
+/dual-build-*/
+/dashboard/state/
+/dashboard/acceptance/
+/dashboard/backups/
+/dashboard/backup-*/
+*.sqlite3
+*.sqlite3-*
+*.safetensors
+*.whl
+.env.*
+!.env.example
